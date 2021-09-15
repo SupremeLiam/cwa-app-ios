@@ -25,7 +25,6 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 		antigenTestProfileStore: AntigenTestProfileStoring,
 		vaccinationValueSetsProvider: VaccinationValueSetsProviding,
 		healthCertificateValidationOnboardedCountriesProvider: HealthCertificateValidationOnboardedCountriesProviding
-		
 	) {
 		self.parentNavigationController = parentNavigationController
 		self.antigenTestProfileStore = antigenTestProfileStore
@@ -63,14 +62,14 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 				case let .failure(qrCodeError):
 					switch qrCodeError {
 					case .invalidTestCode:
-						self.showRATInvalidQQCode()
+						self.showRATInvalidQRCode()
 					}
 				}
 			}
 		)
 	}
 
-	private func showRATInvalidQQCode() {
+	private func showRATInvalidQRCode() {
 		let alert = UIAlertController(
 			title: AppStrings.ExposureSubmission.ratQRCodeInvalidAlertTitle,
 			message: AppStrings.ExposureSubmission.ratQRCodeInvalidAlertText,
@@ -154,12 +153,14 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 		// By default, we show the intro view.
 		let viewModel = ExposureSubmissionIntroViewModel(
 			onQRCodeButtonTap: { [weak self] isLoading in
+				/*
 				self?.model.exposureSubmissionService.loadSupportedCountries(
 					isLoading: isLoading,
 					onSuccess: { supportedCountries in
 						self?.showQRInfoScreen(supportedCountries: supportedCountries)
 					}
 				)
+				*/
 			},
 			onFindTestCentersTap: {
 				LinkHelper.open(urlString: AppStrings.Links.findTestCentersFAQ)

@@ -153,14 +153,7 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 		// By default, we show the intro view.
 		let viewModel = ExposureSubmissionIntroViewModel(
 			onQRCodeButtonTap: { [weak self] isLoading in
-				/*
-				self?.model.exposureSubmissionService.loadSupportedCountries(
-					isLoading: isLoading,
-					onSuccess: { supportedCountries in
-						self?.showQRInfoScreen(supportedCountries: supportedCountries)
-					}
-				)
-				*/
+				self?.showQRScreen(testRegistrationInformation: nil, isLoading: isLoading)
 			},
 			onFindTestCentersTap: {
 				LinkHelper.open(urlString: AppStrings.Links.findTestCentersFAQ)
@@ -448,26 +441,40 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 				if #available(iOS 14.4, *) {
 					self?.exposureManager.preAuthorizeKeys(completion: { error in
 						DispatchQueue.main.async { [weak self] in
-							if let error = error as? ENError {
+							if let error = error  as? ENError {
 								switch error.toExposureSubmissionError() {
 								case .notAuthorized:
-									// user did not authorize -> continue to scanning the qr code
-									self?.showQRScreen(testRegistrationInformation: testRegistrationInformation, isLoading: isLoading)
+									self?.showOverrideTestNoticeIfNecessary(
+										testRegistrationInformation: testRegistrationInformation,
+										submissionConsentGiven: true,
+										isLoading: isLoading
+									)
 								default:
 									// present alert
 									let alert = UIAlertController.errorAlert(message: error.localizedDescription, completion: { [weak self] in
-										self?.showQRScreen(testRegistrationInformation: testRegistrationInformation, isLoading: isLoading)
+										self?.showOverrideTestNoticeIfNecessary(
+											testRegistrationInformation: testRegistrationInformation,
+											submissionConsentGiven: true,
+											isLoading: isLoading
+										)
 									})
 									self?.navigationController?.present(alert, animated: true, completion: nil)
 								}
 							} else {
-								// continue to scanning the qr code
-								self?.showQRScreen(testRegistrationInformation: testRegistrationInformation, isLoading: isLoading)
+								self?.showOverrideTestNoticeIfNecessary(
+									testRegistrationInformation: testRegistrationInformation,
+									submissionConsentGiven: true,
+									isLoading: isLoading
+								)
 							}
 						}
 					})
 				} else {
-					self?.showQRScreen(testRegistrationInformation: testRegistrationInformation, isLoading: isLoading)
+					self?.showOverrideTestNoticeIfNecessary(
+						testRegistrationInformation: testRegistrationInformation,
+						submissionConsentGiven: true,
+						isLoading: isLoading
+					)
 				}
 			},
 			dismiss: { [weak self] in self?.dismiss() }
@@ -491,8 +498,8 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 		return topBottomContainerViewController
 	}
 
-	private func showQRInfoScreen(supportedCountries: [Country]) {
-		push(makeQRInfoScreen(supportedCountries: supportedCountries, testRegistrationInformation: nil))
+	private func showQRInfoScreen(supportedCountries: [Country], testRegistrationInformation: CoronaTestRegistrationInformation?) {
+		push(makeQRInfoScreen(supportedCountries: supportedCountries, testRegistrationInformation: testRegistrationInformation))
 	}
 
 	private func showQRScreen(testRegistrationInformation: CoronaTestRegistrationInformation?, isLoading: @escaping (Bool) -> Void) {
@@ -507,10 +514,11 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 				onSuccess: { testRegistrationInformation in
 					DispatchQueue.main.async { [weak self] in
 						self?.presentedViewController?.dismiss(animated: true) {
-							self?.showOverrideTestNoticeIfNecessary(
-								testRegistrationInformation: testRegistrationInformation,
-								submissionConsentGiven: true,
-								isLoading: isLoading
+							self?.model.exposureSubmissionService.loadSupportedCountries(
+								isLoading: isLoading,
+								onSuccess: { supportedCountries in
+									self?.showQRInfoScreen(supportedCountries: supportedCountries, testRegistrationInformation: testRegistrationInformation)
+								}
 							)
 						}
 					}
@@ -559,10 +567,14 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 	// show an overwrite notice screen if a test of given type was registered before
 	// registerTestAndGetResult will update the loading state of the primary button later
 	private func showOverrideTestNoticeIfNecessary(
-		testRegistrationInformation: CoronaTestRegistrationInformation,
+		testRegistrationInformation: CoronaTestRegistrationInformation?,
 		submissionConsentGiven: Bool,
 		isLoading: @escaping (Bool) -> Void
 	) {
+		guard let testRegistrationInformation = testRegistrationInformation else {
+			return
+		}
+
 		guard model.shouldShowOverrideTestNotice(for: testRegistrationInformation.testType) else {
 			showTestCertificateScreenIfNecessary(
 				testRegistrationInformation: testRegistrationInformation,
@@ -1226,7 +1238,7 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 				self?.model.exposureSubmissionService.loadSupportedCountries(
 					isLoading: isLoading,
 					onSuccess: { supportedCountries in
-						self?.showQRInfoScreen(supportedCountries: supportedCountries)
+						self?.showQRInfoScreen(supportedCountries: supportedCountries, testRegistrationInformation: nil)
 					}
 				)
 

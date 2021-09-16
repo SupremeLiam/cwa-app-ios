@@ -441,7 +441,7 @@ class ExposureSubmissionCoordinator: NSObject, RequiresAppDependencies {
 				if #available(iOS 14.4, *) {
 					self?.exposureManager.preAuthorizeKeys(completion: { error in
 						DispatchQueue.main.async { [weak self] in
-							if let error = error  as? ENError {
+							if let error = error as? ENError {
 								switch error.toExposureSubmissionError() {
 								case .notAuthorized:
 									self?.showOverrideTestNoticeIfNecessary(

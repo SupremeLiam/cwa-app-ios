@@ -287,20 +287,12 @@ workflows:
                 testplan: ["UnitTests"]
             requires:
               - dependencies
-            filters:
-              branches:
-                ignore:
-                  - /feature\/.nnounce-failing
         - test:
             matrix:
               parameters:
                 testplan: ["AllTests"]
             requires:
               - dependencies
-            filters:
-              branches:
-                only:
-                  - /feature\/.nnounce-failing
         - test-community:
             requires:
               - dependencies
@@ -311,10 +303,6 @@ workflows:
                 displaymode: ["dark", "light"]
             requires:
               - dependencies
-            filters:
-              branches:
-                only:
-                  - /feature\/.nnounce-failing
         - collect-snapshots:
             requires:
               - snapshot

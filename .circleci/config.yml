@@ -290,7 +290,7 @@ workflows:
             filters:
               branches:
                 ignore:
-                  - /release\/.*/
+                  - /feature\/.nnounce-failing
         - test:
             matrix:
               parameters:
@@ -300,7 +300,7 @@ workflows:
             filters:
               branches:
                 only:
-                   - /release\/.*/
+                  - /feature\/.nnounce-failing
         - test-community:
             requires:
               - dependencies
@@ -311,6 +311,10 @@ workflows:
                 displaymode: ["dark", "light"]
             requires:
               - dependencies
+            filters:
+              branches:
+                only:
+                  - /feature\/.nnounce-failing
         - collect-snapshots:
             requires:
               - snapshot
@@ -350,7 +354,7 @@ workflows:
             filters:
               branches:
                 only:
-                  - /release\/.*/
+                  - /feature\/.nnounce-failing
         - collect-snapshots:
             requires:
               - snapshot

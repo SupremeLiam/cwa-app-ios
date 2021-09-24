@@ -331,7 +331,7 @@ class ENAUITests_01b_Statistics: CWATestCase {
 			
 			XCTAssert(self.app.staticTexts[keySubmissionsTitle].waitForExistence(timeout: .medium))
 			snapshot("statistics_key_submissions")
-			app.staticTexts[keySubmissionsTitle].swipeLeft()
+			app.staticTexts[keySubmissionsTitle].swipeRight()
 			
 			XCTAssert(self.app.staticTexts[reproductionNumberTitle].waitForExistence(timeout: .medium))
 			snapshot("statistics_7Day_rvalue")

@@ -4,8 +4,10 @@ set -euo pipefail
 
 SCREENSHOT_URL=$1
 
-if curl --output /dev/null --silent --head --fail "$SCREENSHOT_URL"; then
-  curl --output /dev/null --silent $Failed_SCREENSHOTS_TEAMS \
+if curl --output /dev/null --silent --head --fail "$SCREENSHOT_URL";
+then
+echo "screenshots succeeded: sending webhook of screenshots"
+  curl -X POST $Failed_SCREENSHOTS_TEAMS \
   -H 'Content-Type: application/json' \
   --data-binary @- << EOF
 {
@@ -43,10 +45,11 @@ if curl --output /dev/null --silent --head --fail "$SCREENSHOT_URL"; then
 }
 EOF
 else
-  curl --output /dev/null --silent $Failed_SCREENSHOTS_TEAMS \
-  -H 'Content-Type: application/json' \
-  --data-binary @- << EOF
-{
+echo "screenshots failed: sending webhook of screenshots"
+curl -X POST $Failed_SCREENSHOTS_TEAMS \
+   -H 'Content-Type: application/json' \
+   --data-binary @- << EOF
+   {
   "@type": "MessageCard",
   "@context": "http://schema.org/extensions",
   "themeColor": "0076D7",
@@ -72,7 +75,5 @@ else
   }]
 }
 EOF
-  echo "Could not locate screenshots at $SCREENSHOT_URL"
-  return 1
 fi
 

@@ -4,10 +4,8 @@ set -euo pipefail
 
 SCREENSHOT_URL=$1
 
-if curl --output /dev/null --silent --head --fail "$SCREENSHOT_URL";
-then
-echo "screenshots succeeded: sending webhook of screenshots"
-  curl -X POST $Failed_SCREENSHOTS_TEAMS \
+if curl --output /dev/null --silent --head --fail "$Failed_SCREENSHOTS_TEAMS"; then
+  curl --output /dev/null --silent $SAP_TEAMS_WEBHOOK \
   -H 'Content-Type: application/json' \
   --data-binary @- << EOF
 {
@@ -45,36 +43,6 @@ echo "screenshots succeeded: sending webhook of screenshots"
 }
 EOF
 else
-echo "screenshots failed: sending webhook of screenshots"
-curl -X POST $Failed_SCREENSHOTS_TEAMS \
-   -H 'Content-Type: application/json' \
-   --data-binary @- << EOF
-   {
-  "@type": "MessageCard",
-  "@context": "http://schema.org/extensions",
-  "themeColor": "0076D7",
-  "summary": "Screenshots has failed!",
-  "sections": [{
-      "activityTitle": "Screenshots has failed!",
-      "activitySubtitle": "On Project ${CIRCLE_PROJECT_REPONAME}",
-      "activityImage": "https://media.staticline.de/pictures/530f4962378e781ea8c5f70aa9fbacca535968f2.png",
-      "facts": [{
-          "name": "Created by",
-          "value": "${CIRCLE_USERNAME}"
-      }, {
-          "name": "Timestamp",
-          "value": "$(date "+%Y-%m-%d %H:%M")"
-      }, {
-          "name": "Branch",
-          "value": "${CIRCLE_BRANCH}"
-      }, {
-          "name": "Build number",
-          "value": "${CIRCLE_BUILD_NUM}"
-      }],
-      "markdown": true
-  }]
-}
-EOF
- return 1
+  echo "Could not locate screenshots at $SCREENSHOT_URL"
+  return 1
 fi
-

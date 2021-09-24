@@ -75,5 +75,6 @@ curl -X POST $Failed_SCREENSHOTS_TEAMS \
   }]
 }
 EOF
+ return 1
 fi
 

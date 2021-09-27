@@ -318,10 +318,6 @@ workflows:
         - collect-snapshots:
             requires:
               - snapshot
-            filters:
-              branches:
-                only:
-                  - /CI\/.*/
         - update-docs:
             requires:
               - dependencies

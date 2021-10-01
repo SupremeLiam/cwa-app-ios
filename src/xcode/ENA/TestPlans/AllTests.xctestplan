@@ -74,6 +74,7 @@
   },
   "testTargets" : [
     {
+      "enabled" : false,
       "parallelizable" : true,
       "skippedTests" : [
         "HTTPClientCertificatePinningTests\/testAllProductionEndpoints()",
@@ -148,6 +149,7 @@
       }
     },
     {
+      "enabled" : false,
       "target" : {
         "containerPath" : "container:HealthCertificateToolkit",
         "identifier" : "HealthCertificateToolkitTests",

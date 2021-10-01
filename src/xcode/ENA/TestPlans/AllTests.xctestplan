@@ -74,7 +74,6 @@
   },
   "testTargets" : [
     {
-      "enabled" : false,
       "parallelizable" : true,
       "skippedTests" : [
         "HTTPClientCertificatePinningTests\/testAllProductionEndpoints()",
@@ -90,11 +89,8 @@
     {
       "parallelizable" : true,
       "skippedTests" : [
-        "CWATestCase",
         "ENAUITests",
-        "ENAUITests_00_Onboarding",
         "ENAUITests_00_Onboarding\/test_0002_Screenshots_OnboardingFlow_EnablePermissions_normal_S()",
-        "ENAUITests_01a_Home",
         "ENAUITests_01a_Home\/test_screenshot_details_riskCardLow_riskOneDay_Ndays()",
         "ENAUITests_01a_Home\/test_screenshot_homescreen_invalid_test_result()",
         "ENAUITests_01a_Home\/test_screenshot_homescreen_negative_test_result()",
@@ -112,12 +108,8 @@
         "ENAUITests_01a_Home\/test_screenshot_homescreen_riskCardLow_riskMultipleDays()",
         "ENAUITests_01a_Home\/test_screenshot_homescreen_riskCardLow_riskNoDays()",
         "ENAUITests_01a_Home\/test_screenshot_homescreen_riskCardLow_riskOneDay()",
-        "ENAUITests_01b_Statistics",
         "ENAUITests_01b_Statistics\/test_screenshot_local_statistics_card()",
         "ENAUITests_01b_Statistics\/test_screenshot_statistics_card_titles()",
-        "ENAUITests_02_AppInformation",
-        "ENAUITests_03_Settings",
-        "ENAUITests_04a_ExposureSubmission",
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_SubmissionNotPossible()",
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_SubmitQR()",
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_SubmitTAN()",
@@ -130,13 +122,9 @@
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_test_result_negative()",
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_test_result_pending()",
         "ENAUITests_04a_ExposureSubmission\/test_screenshot_test_result_positive()",
-        "ENAUITests_04b_ExposureDetection",
         "ENAUITests_04c_ExposureLogging",
-        "ENAUITests_05_DataDonation",
-        "ENAUITests_06_DeltaOnboarding",
         "ENAUITests_06_DeltaOnboarding\/test_screenshot_DeltaOnboardingNewVersionFeatures()",
         "ENAUITests_06_DeltaOnboarding\/test_screenshot_DeltaOnboardingV15()",
-        "ENAUITests_07_ContactJournal",
         "ENAUITests_07_ContactJournal\/test_screenshot_AddTwoPersonsAndOneLocationToDate()",
         "ENAUITests_07_ContactJournal\/test_screenshot_AddTwoPersonsTwoLocations()",
         "ENAUITests_07_ContactJournal\/test_screenshot_ContactJournalInformation()",
@@ -146,15 +134,11 @@
         "ENAUITests_07_ContactJournal\/test_screenshot_TwoPersonsOneLocationAndMessages()",
         "ENAUITests_08_UpdateOS",
         "ENAUITests_08_UpdateOS\/test_screenshot_UpdateOS()",
-        "ENAUITests_09_TraceLocations",
         "ENAUITests_09_TraceLocations\/test_screenshots_of_traceLocation_print_flow()",
-        "ENAUITests_10_CheckIns",
         "ENAUITests_10_CheckIns\/test_screenshot_WHEN_scan_QRCode_THEN_checkin_and_checkout()",
-        "ENAUITests_11_QuickActions",
         "ENAUITests_11_QuickActions\/testLaunchViaShortcutFromFreshInstall()",
         "ENAUITests_13_CreateHealthCertificate",
         "ENAUITests_14_ValidateHealthCertificate",
-        "ENAUITests_15_OnBehalfCheckinSubmission",
         "ENAUITests_15_OnBehalfCheckinSubmission\/test_screenshot_OnBehalfCheckinSubmissionWithExistingTraceLocation()"
       ],
       "target" : {
@@ -164,7 +148,6 @@
       }
     },
     {
-      "enabled" : false,
       "target" : {
         "containerPath" : "container:HealthCertificateToolkit",
         "identifier" : "HealthCertificateToolkitTests",
